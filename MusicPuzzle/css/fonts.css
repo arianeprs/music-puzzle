@@ -1,0 +1,30 @@
+@font-face{
+  font-family: "OldSansBlack";
+  src: url("../fonts/OldSansBlack.ttf")format("truetype");
+}
+
+@font-face{
+	font-family: "SpartanExtra";
+	src: url("../fonts/TTF/SpartanMB-ExtraBold.ttf") format("truetype");
+}
+
+@font-face{
+	font-family: "SpartanBold";
+	src: url("../fonts/TTF/SpartanMB-Bold.ttf") format("truetype");
+}
+
+@font-face{
+	font-family: "SpartanMedium";
+	src: url("../fonts/TTF/SpartanMB-Medium.ttf") format("truetype");
+	src: url("../fonts/OTF/SpartanMB-Medium.otf") format("opentype");
+}
+
+@font-face{
+	font-family: "3DIsometric";
+	src: url("../fonts/3d_isometric/3D_Isometric.otf") format("opentype");
+}
+
+@font-face{
+	font-family: "3DIsometricBold";
+	src: url("../fonts/3d_isometric/3D_Isometric_Bold.otf") format("opentype");
+}
