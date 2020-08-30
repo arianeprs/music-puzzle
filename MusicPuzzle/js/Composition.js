@@ -1,5 +1,5 @@
 /** @class Composition representing the user composition. */
-class Composition{
+class Composition {
 
 	/**
 	 * Creates an instance of Composition.
@@ -9,47 +9,49 @@ class Composition{
 	 * @param {Game} game The game currently played
 	 *
 	 */
-	constructor(game){
+	constructor(game) {
 
 		this.myGame = game;
 
- 		var self = this;
+		var self = this;
 
-		this.buttonPlay = document.getElementById("playSequence"); 
+		this.buttonPlay = document.querySelector("button.play-button");
+
 		this.buttonPlay.disabled = true;
+		this.canPlay = true;
 
-		this.buttonPlay.addEventListener("click", function(e){ 
+		this.buttonPlay.addEventListener("click", function () {
 
-			if(self.buttonPlay.classList.contains("can-play")){
+			if (self.canPlay) {
 				self.updateButtonPlayImg(false);
 				self.playSequence(self.getUserSequence());
 			}
 
-			else{ 
+			else {
 				self.myGame.puzzlePieces[0].stopSprite();
-				self.updateButtonPlayImg(true); 
+				self.updateButtonPlayImg(true);
 				clearInterval(self.myInterval);
 			}
 		});
 	}
 
-// ------- GET USER COMPOSITION  -------
+	// ------- GET USER COMPOSITION  -------
 
 	/**
 	 * Gets all puzzle pieces that have been dropped in dropzones,  
 	 * i.e all DOM divs that have the class 'can-drop'   
 	 * @return {PuzzlePiece[]} droppedElements Array of all puzzle pieces that have been dropped
 	 */
-	getAllDropped(){
+	getAllDropped() {
 
 		var droppedElements = [];
 
-		for (var item of this.myGame.puzzlePieces){
+		for (var item of this.myGame.puzzlePieces) {
 
-			if (item.elementDOM.classList.contains("can-drop")){
+			if (item.elementDOM.classList.contains("can-drop")) {
 				droppedElements.push(item);
 			}
-		} 
+		}
 		return droppedElements;
 	}
 
@@ -59,104 +61,112 @@ class Composition{
 	 * @param{PuzzlePiece} elt2
 	 * @return {number} comparisonValue (1 or -1) depending on which element is placed before the other
 	 */
-	compareLeftPosition(elt1, elt2){
+	compareLeftPosition(elt1, elt2) {
 		var pos1 = elt1.elementDOM.getBoundingClientRect().left;
 		var pos2 = elt2.elementDOM.getBoundingClientRect().left;
 
-		var comparisonValue = 1; 
+		var comparisonValue = 1;
+		if (pos1 < pos2) { comparisonValue = -1; }
 
-		if (pos1 < pos2){ comparisonValue = -1; }
-
-		return comparisonValue; 
+		return comparisonValue;
 	}
 
 	/**
 	 * Accesses all elements dropped by the user and orders them in the 'left to right' order
 	 * @return {PuzzlePiece[]} userSequence Array of all the puzzle pieces dropped by the user, in order
 	 */
-	getUserSequence(){
+	getUserSequence() {
 
 		var droppedElements = this.getAllDropped();
 		var userSequence = droppedElements.sort(this.compareLeftPosition);
 		return userSequence;
 	}
 
-// ----------- PLAY SEQUENCE ----------
-	
+	// ----------- PLAY SEQUENCE ----------
+
 	/**
 	 * Defines an interval that will play each puzzle piece from the sequence defined by user
 	 * @param {PuzzlePiece[]} userSequence Array of all the puzzle pieces dropped by the user, in order
 	 */
-	playSequence(userSequence){
+	playSequence(userSequence) {
 
-		var self= this;
+		var self = this;
 
 		// start playing the first puzzle piece
 		var currentPiece = userSequence[0];
 		var previousPiece = userSequence[0];
 
 		currentPiece.stopSprite();
+		currentPiece.removeFeedback();
 
-		for (var elt of userSequence){
+		for (var elt of userSequence) {
 			elt.elementDOM.classList.add("composition");
 		}
 
-		currentPiece.elementDOM.classList.add("isPlaying", "hasBeenPlayed", "composition");
+		currentPiece.elementDOM.classList.add("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed");
 		this.myGame.myHowl.play(currentPiece.spriteID);
 
 		userSequence.shift();
-		
-		// will continue to play each piece until there is none left
-		this.myInterval = setInterval(function(){
 
-			if (userSequence.length > 0){
-				previousPiece.elementDOM.classList.remove("isPlaying", "composition");
+		// will continue to play each piece until there is none left
+		this.myInterval = setInterval(function () {
+
+			if (userSequence.length > 0) {
+				previousPiece.elementDOM.classList.remove("puzzle-piece--is-playing");
 
 				currentPiece = userSequence[0];
-				currentPiece.elementDOM.classList.add("isPlaying");
+				currentPiece.elementDOM.classList.add("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed");
 				self.myGame.myHowl.play(currentPiece.spriteID);
 
 				previousPiece = currentPiece;
-				
+
 				userSequence.shift();
 			}
 
-			else{
+			else {
 				currentPiece.stopSprite();
+				currentPiece.elementDOM.classList.remove("puzzle-piece--is-playing");
 				self.stopComposition();
-				
+
 			}
-		}, currentPiece.interval*1000); // conversion in ms
+		}, currentPiece.interval * 1000); // conversion in ms
 	}
 
 	/**
 	 * Calls 2 methods to clear the interval previously defined and update the image in the play button.
 	 */
-	stopComposition(){
+	stopComposition() {
 		clearInterval(this.myInterval);
-		this.updateButtonPlayImg(true); 
+		this.updateButtonPlayImg(true);
+		var puzzlePieces = this.myGame.puzzlePieces;
+		for (var elt of puzzlePieces) {
+			if (!elt.elementDOM.classList.contains("puzzle-piece--hasBeenPlayed")) {
+				elt.elementDOM.classList.remove("composition");
+			}
+		}
+
 	}
 
-// ----- BUTTON / COLORS feedback -----
-	
+	// ----- BUTTON / COLORS feedback -----
+
 	/**
 	 * Updates the image in the play button and add/remove its "can-play" class.
 	 * @param{boolean} bool If true, the image displayed is "play". Else, "stop".
 	 */
-	updateButtonPlayImg(bool){
-		
-		if (bool){
+	updateButtonPlayImg(bool) {
+
+		if (bool) {
 			//button can be pressed to play the composition
 			document.getElementById("play_img").style.display = "block";
 			document.getElementById("stop_img").style.display = "none";
-			this.buttonPlay.classList.add("can-play");
+			this.canPlay = true;
 		}
 
-		else{
+		else {
 			//button can be pressed to stop playing 
 			document.getElementById("stop_img").style.display = "block";
-			document.getElementById("play_img").style.display = "none"; 
-			this.buttonPlay.classList.remove("can-play");
+			document.getElementById("play_img").style.display = "none";
+			this.canPlay = false;
 		}
 	}
 
@@ -164,16 +174,16 @@ class Composition{
 	 *  Decides whether or not the play button is enabled, 
 	 *  depending on the existence of a puzzle piece with the class "can-drop".
 	 */
-	enableButtonPlay(){
- 
+	enableButtonPlay() {
+
 		var droppedElements = document.querySelector(".can-drop");
 
-		if (droppedElements != null){
+		if (droppedElements != null) {
 			this.buttonPlay.disabled = false;
 		}
 
-		else{
-			this.buttonPlay.disabled=true;
+		else {
+			this.buttonPlay.disabled = true;
 		}
 	}
 }

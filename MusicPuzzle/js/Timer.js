@@ -1,5 +1,5 @@
 /** @class Timer representing the Timer management methods. */
-class Timer{
+class Timer {
 
 
 	/**
@@ -9,16 +9,16 @@ class Timer{
 	 * @author: ariane <ame.parissis@gmail.com>
 	 *
 	 */
-	constructor(){
+	constructor() {
 
-		this.minutes =  document.querySelector('#min');
-		this.seconds =  document.querySelector('#sec');
-		this.miliseconds =  document.querySelector('#ms');
+		this.minutes = document.querySelector('#min');
+		this.seconds = document.querySelector('#sec');
+		this.miliseconds = document.querySelector('#ms');
 
 		this.minutes.textContent = "00";
 		this.seconds.textContent = "00";
 		this.miliseconds.textContent = "00";
-	} 
+	}
 
 	/**
 	 * Increases the value of a selected timer unit
@@ -26,23 +26,23 @@ class Timer{
 	 * @param {number} maxValue The max value for this specific unit (59, 59, 99) 
 	 */
 
-	increaseTimer(element, maxValue){
+	increaseTimer(element, maxValue) {
 
-		var timerValue = Number(element.textContent);  
+		var timerValue = Number(element.textContent);
 
-		if (timerValue < maxValue){
+		if (timerValue < maxValue) {
 
-			var newValue = timerValue +1;
+			var newValue = timerValue + 1;
 
-			if (newValue < 10){
+			if (newValue < 10) {
 				element.textContent = "0" + newValue;
 			}
 
-			else{
+			else {
 				element.textContent = newValue;
 			}
 		}
-		else{
+		else {
 			element.textContent = "00";
 		}
 	}
@@ -51,30 +51,33 @@ class Timer{
      * Starts the timer by creating 3 distinct intervals (intervalMs, intervalS, intervalMn)
      * that will repeatedly call increaseTimer function with corresponding parameters.
      */
-	
-	startTimer(){
+
+	startTimer() {
 
 		var self = this;
 
-		this.intervalMs = setInterval(function(){
-			self.increaseTimer(self.miliseconds,99)}, 1);
+		this.intervalMs = setInterval(function () {
+			self.increaseTimer(self.miliseconds, 99)
+		}, 1);
 
-		this.intervalS = setInterval(function(){
-			self.increaseTimer(self.seconds, 59)}, 1000);
-		
-		this.intervalMn = setInterval(function(){
-			self.increaseTimer(self.minutes, 59)}, 60000); 
+		this.intervalS = setInterval(function () {
+			self.increaseTimer(self.seconds, 59)
+		}, 1000);
+
+		this.intervalMn = setInterval(function () {
+			self.increaseTimer(self.minutes, 59)
+		}, 60000);
 	}
 
 	/**
      * Stops the timer by clearing the 3 intervals (intervalMs, intervalS, intervalMn)
      * previously created.
      */
-	
-	stopTimer(){
 
-		clearInterval(this.intervalMs); 
-		clearInterval(this.intervalMn); 
+	stopTimer() {
+
+		clearInterval(this.intervalMs);
+		clearInterval(this.intervalMn);
 		clearInterval(this.intervalS);
 	}
 
@@ -83,7 +86,7 @@ class Timer{
      * @return {string} myTimer Current Timer values
      */
 
-	getTime(){
+	getTime() {
 
 		var myTimer = this.minutes.textContent + ":"
 			+ this.seconds.textContent + "."

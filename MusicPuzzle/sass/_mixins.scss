@@ -1,0 +1,18 @@
+@mixin fonts($texts) {
+    @each $text-type, $text-info in $texts {
+        &__#{$text-type} {
+            font-family: map-get($text-info, font-family);
+            font-size: map-get($text-info, font-size);
+            color: map-get($text-info, color);
+            opacity: map-get($text-info, opacity);
+        }
+    }
+}
+
+@mixin borders($element) {
+    $border-info: map-get($borders, $element);
+
+    border: map-get($border-info, border);
+    border-color: map-get($border-info, border-color);
+    border-radius: map-get($border-info, border-radius);
+}

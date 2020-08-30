@@ -1,0 +1,66 @@
+$color-background: #121212;
+$pink: rgba(231, 98, 161,0.6);
+$pink-no-opacity: rgba(231, 98, 161,0.9);
+$blue: #43BD99;
+
+$welcome-panel-fonts: ( 
+    title: (
+        font-family: "3DIsometricBold",
+        font-size: 4em,
+        color: #43BD99,
+        opacity: 0.9
+    ), 
+    subtitle: (
+        font-family: "SpartanBold",
+        font-size: 1em,
+        color: #43BD99,
+        opacity: 0.9
+    ),
+    btn: (
+        font-family: "SpartanExtra",
+        font-size: 1.5em,
+        color: #121212,
+        opacity: 1
+    )
+
+);
+
+$game-panel-fonts:(
+    restart: (
+        font-family: "SpartanMedium",
+        font-size: 1em,
+        color: rgba(231, 98, 161,0.6),
+        /*opacity: 0.6*/
+    ), 
+    hint: (
+        font-family: "SpartanExtra",
+        font-size: 1em,
+        color: rgba(231, 98, 161,0.6),
+        /*opacity: 0.6*/
+    ), 
+     timer: (
+        font-family: "SpartanExtra",
+        font-size: medium,
+        color: rgb(196,196,196),
+        opacity: 0.4
+    )
+);
+
+$borders: (
+    main-screen: (
+        border: solid 2px,
+        border-color: rgba(231, 98, 161,0.3),
+        border-radius: 1em
+    ),
+    composition-zone:(
+        border: solid 2px, 
+        border-color: rgba(231, 98, 161,0.3),
+        border-radius: 1em
+    )
+);
+
+@function pastel($color){
+    $color-hue : hue($color);
+    $pastel-color : hsl($color-hue, 100%, 90%);
+    @return $pastel-color;
+}

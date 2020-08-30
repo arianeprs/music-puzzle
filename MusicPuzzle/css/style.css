@@ -1,0 +1,298 @@
+body {
+  background-color: #121212;
+  display: flex;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+option, form {
+  font-family: "SpartanBold";
+}
+
+.main-screen {
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: solid 2px;
+  border-color: rgba(231, 98, 161, 0.3);
+  border-radius: 1em;
+  width: 800px;
+  height: 400px;
+}
+.main-screen__confetti {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.welcome-panel, .game-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  z-index: 10;
+  -webkit-transition: color 0.2s ease-in;
+  -ms-transition: color 0.2s ease-in;
+  transition: color 0.2s ease-in;
+}
+.welcome-panel__title, .game-panel__title {
+  font-family: "3DIsometricBold";
+  font-size: 4em;
+  color: #43BD99;
+  opacity: 0.9;
+}
+.welcome-panel__subtitle, .game-panel__subtitle {
+  font-family: "SpartanBold";
+  font-size: 1em;
+  color: #43BD99;
+  opacity: 0.9;
+}
+.welcome-panel__btn, .game-panel__btn {
+  font-family: "SpartanExtra";
+  font-size: 1.5em;
+  color: #121212;
+  opacity: 1;
+}
+
+.game-panel__hint:hover, .game-panel__restart:hover {
+  color: rgba(231, 98, 161, 0.9);
+  -webkit-transition: color 0.2s ease-in;
+  -ms-transition: color 0.2s ease-in;
+  transition: color 0.2s ease-in;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.welcome-panel__btn {
+  visibility: hidden;
+}
+.welcome-panel__btn--background {
+  width: fit-content;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5em;
+  margin-top: 1em;
+  background: linear-gradient(-45deg, #43BD99, #59b4b1, #e762a1, #ffbb40);
+  background-size: 400% 400%;
+  animation: gradient 1.5s ease infinite;
+}
+.welcome-panel__btn--background:hover {
+  animation: none;
+}
+
+.game-panel__restart {
+  font-family: "SpartanMedium";
+  font-size: 1em;
+  color: rgba(231, 98, 161, 0.6);
+}
+.game-panel__hint {
+  font-family: "SpartanExtra";
+  font-size: 1em;
+  color: rgba(231, 98, 161, 0.6);
+}
+.game-panel__timer {
+  font-family: "SpartanExtra";
+  font-size: medium;
+  color: #c4c4c4;
+  opacity: 0.4;
+}
+.game-panel__header {
+  margin-top: 2%;
+}
+.game-panel__timer {
+  position: absolute;
+  left: 46%;
+}
+.game-panel__top-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1em;
+}
+.game-panel__composition-zone {
+  border: solid 2px;
+  border-color: rgba(231, 98, 161, 0.3);
+  border-radius: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2% 6%;
+  padding: 2%;
+}
+
+.game-panel__buttons {
+  background: inherit;
+  border: none;
+}
+.game-panel__buttons:hover {
+  opacity: 1;
+}
+
+.puzzle-piece {
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 0.4em;
+  transition: background-color 0.3s;
+}
+.puzzle-piece--dropzone {
+  background-color: rgba(196, 196, 196, 0.15);
+  margin: 0.2em;
+}
+.puzzle-piece--drag-drop {
+  display: inline-block;
+  margin: 1em;
+  background: #59b4b1;
+  background: linear-gradient(45deg, #59b4b1, #99FFFF);
+  box-sizing: border-box;
+  touch-action: none;
+  transform: translate(0px, 0px);
+}
+.puzzle-piece--is-playing {
+  box-shadow: inset 0 1px 4px #FFFFCC, 0 0 10px #FFFFCC;
+}
+
+.puzzle-piece--correct-position.puzzle-piece--hasBeenPlayed.composition {
+  transition: background-color 0.3s;
+  background: #A9CB55;
+  background: linear-gradient(45deg, #A9CB55, #9DCEA5);
+}
+
+.puzzle-piece--incorrect-position.puzzle-piece--hasBeenPlayed.composition {
+  transition: background-color 0.3s;
+  background: #FF3333;
+  background: linear-gradient(45deg, #FF3333, #F39669);
+}
+
+.dropzones {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  /*margin-top: 1%;
+  margin-bottom: 1%;
+  margin-right: 2%;*/
+  margin-left: 2%;
+  padding: 1%;
+  /*border-radius: 0.9em;*/
+}
+
+.puzzle-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.play-button {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 12px;
+  background: #e762a1;
+  background: linear-gradient(42deg, #e762a1 0%, #ffbb40 100%);
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+.play-button__img {
+  max-width: 25px;
+  margin: auto;
+}
+.play-button__img--hidden {
+  display: none;
+}
+.play-button:disabled {
+  cursor: default;
+  background: rgba(196, 196, 196, 0.15);
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: block;
+}
+.dropdown__btn {
+  background-color: inherit;
+  padding: 0.5em 1em;
+  border-radius: 0.4em;
+  font-family: "SpartanBold";
+  font-size: medium;
+  color: rgba(231, 98, 161, 0.6);
+  border: solid 0.1em rgba(231, 98, 161, 0.6);
+  display: flex;
+  align-items: center;
+}
+.dropdown__img {
+  margin-left: 1em;
+  width: 16px;
+  opacity: 0.6;
+}
+.dropdown__choices {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Links inside the dropdown */
+.dropdown__choices a {
+  background: #121212;
+  text-decoration: none;
+  display: block;
+  font-family: "SpartanMedium";
+  font-size: 0.9em;
+  padding: 0.4em 0;
+  color: #43BD99;
+}
+.dropdown__choices a:hover {
+  background-color: #ccfff0;
+  color: #121212;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropdown__btn {
+  -webkit-transition: background-color 0.2s linear;
+  -ms-transition: background-color 0.2s linear;
+  transition: background-color 0.2s linear;
+  background-color: #ffcce4;
+  color: #121212;
+  border: solid 0.1em #121212;
+}
+
+footer {
+  z-index: 1000;
+  color: rgba(231, 98, 161, 0.6);
+  text-align: center;
+}
+footer > .footer__me {
+  font-family: "SpartanExtra";
+  font-size: small;
+  margin: 0.5em;
+}
+footer > .footer__me > a {
+  color: rgba(231, 98, 161, 0.6);
+  text-decoration: none;
+}
+footer > .footer__allrights {
+  opacity: 0.5;
+  font-family: "SpartanMedium";
+  font-size: x-small;
+}
+
+/*# sourceMappingURL=style.css.map */
