@@ -1,5 +1,5 @@
 /** @class Hints representing the Hint management methods. */
-class Hints{
+class Hints {
 
 	/**
 	 * Creates an instance of Hints.
@@ -9,30 +9,27 @@ class Hints{
 	 * @param {Game} game The game currently played
 	 *
 	 */
-	constructor(game){
- 
+	constructor(game) {
+
 		this.myGame = game;
 		this.givenHints = 0;
 		this.hintLimit = game.hintLimit;
 
-		this.buttonHint = document.getElementById("hintButton"); 
+		this.buttonHint = document.querySelector(".game-panel__hint");
 
-		this.updateButtonHint();
 		this.buttonHintEventListener();
 	}
 
-// ----- METHODS CALLED TO GIVE A HINT ----
+	// ----- METHODS CALLED TO GIVE A HINT ----
 
 	/**
 	 * Decides which puzzle piece will be selected as a hint, 
 	 * by randomly choosing an element from the array possibleHints 
 	 * @return {PuzzlePiece} selectedHint The puzzle piece that will me used
 	 */
-	chooseHint(){
-
+	chooseHint() {
 		var randomIndex = this.getRandom(0, this.possibleHints.length);
 		var selectedHint = this.possibleHints[randomIndex];
-			
 		return selectedHint;
 	}
 
@@ -41,13 +38,13 @@ class Hints{
 	 * Moving the piece on the board, updating the hint button, verifying if the game is finished...
 	 * @param {PuzzlePiece} selectedHint The puzzle piece that will be moved on the board
 	 */
-	giveHint(selectedHint){
+	giveHint(selectedHint) {
 
 		// dropzone corresponding to the selected hint
-		var targetDropzone = document.querySelector(".dropzone."+ selectedHint.id);
-		 
+		var targetDropzone = this.myGame.findMatchingDropzone(selectedHint);
+
 		// move hint to corresponding dropzone 
-		this.moveHint(selectedHint, targetDropzone);
+		this.moveHint(selectedHint.elementDOM, targetDropzone.dropzoneDOM);
 
 		this.givenHints += 1;
 		this.updateButtonHint();
@@ -55,26 +52,29 @@ class Hints{
 		this.myGame.composition.enableButtonPlay();
 		this.myGame.puzzlePieces[0].dragElementConstraints();
 
-		this.myGame.verifyGameFinished();		
+		this.myGame.verifyGameFinished();
 	}
- 
+
 	/**
 	 * Defines an array of puzzle pieces that can considered as possible hints 
 	 * i.e they are not placed on a dropzone & their corresponding dropzone is not taken
 	 * @return {PuzzlePiece[]} possibleHints Array of puzzle pieces
 	 */
-	getPossibleHints(){
+	getPossibleHints() {
 
-		var dragdropElts = document.querySelectorAll('.drag-drop');
 		var possibleHints = [];
+		var puzzlePieces = this.myGame.puzzlePieces;
 
-		for (var elt of dragdropElts){
+		for (var elt of puzzlePieces) {
 
-			// element's corresponding dropzone
-			var eltDropzone = document.querySelector(".dropzone."+elt.id);
+			if (!elt.elementDOM.classList.contains('can-drop')) {
 
-			if ((!elt.classList.contains('can-drop')) && (!eltDropzone.classList.contains("no-drop"))) {
-				possibleHints.push(elt);
+				// element's corresponding dropzone
+				var matchingDz = this.myGame.findMatchingDropzone(elt);
+
+				if (!matchingDz.dropzoneDOM.classList.contains("is-taken")) {
+					possibleHints.push(elt);
+				}
 			}
 		}
 		return possibleHints;
@@ -98,67 +98,64 @@ class Hints{
 	 * @param {PuzzlePiece} myElt The puzzle piece (hint) to be moved 
 	 * @param {PuzzlePiece} targetDropzone The corresponding dropzone it needs to go to
 	 */
-	moveHint(myElt, targetDropzone){
+	moveHint(myElt, targetDropzone) {
 
 		var startPos = this.myGame.getPosition(myElt);
 		var targetPos = this.myGame.getPosition(targetDropzone);
 
 		// translate element to the target position  while taking into account previous moves
-		var DeltaX = targetPos.x + Number(myElt.getAttribute('data-x')) - startPos.x ;
-		var DeltaY = targetPos.y + Number(myElt.getAttribute('data-y')) - startPos.y ;
-		
-		myElt.style.transition="transform 0.3s linear";
+		var DeltaX = targetPos.x + Number(myElt.getAttribute('data-x')) - startPos.x;
+		var DeltaY = targetPos.y + Number(myElt.getAttribute('data-y')) - startPos.y;
+
+		myElt.style.transition = "transform 0.3s linear";
 
 		myElt.style.webkitTransform =
-	    myElt.style.transform =
-	      'translate(' + DeltaX + 'px, ' + DeltaY + 'px)';
+			myElt.style.transform =
+			'translate(' + DeltaX + 'px, ' + DeltaY + 'px)';
 
 		// update the position attributes
-		myElt.setAttribute('data-x',  DeltaX);
-		myElt.setAttribute('data-y',  DeltaY);
+		myElt.setAttribute('data-x', DeltaX);
+		myElt.setAttribute('data-y', DeltaY);
 
 
-	    this.myGame.puzzlePieces[0].stopSprite();
-	    this.myGame.composition.stopComposition(); 
+		this.myGame.puzzlePieces[0].stopSprite();
+		this.myGame.composition.stopComposition();
 
-
-		myElt.classList.add("hint","can-drop","correct-position"); 
-		targetDropzone.classList.add("no-drop");
+		myElt.classList.add("can-drop", "puzzle-piece--correct-position");
+		targetDropzone.classList.add("is-taken");
 	}
 
 	/**
 	 * Updates the content of the hint button (in DOM) depending on the number of remaining hints 
 	 */
-	updateButtonHint(){
-		var remainingHints = this.getPossibleHints().length; 
+	updateButtonHint() {
 
-		var totalHints= remainingHints;
+		var buttonText = "Use a hint!";
 
-		if (remainingHints > (this.hintLimit - this.givenHints))
-		{ 
-			totalHints =  this.hintLimit - this.givenHints;
-		}
+		var remainingHints = this.getPossibleHints().length;
 
-		var buttonText = "Use a hint"; 
-
-		if ((remainingHints <= 0) | (this.hintLimit <= this.givenHints)){
+		if ((remainingHints <= 0) | (this.hintLimit <= this.givenHints)) {
 			this.buttonHint.disabled = true;
 			buttonText = "";
 		}
 
-		this.buttonHint.textContent = buttonText; 
+		else {
+			this.buttonHint.disabled = false;
+		}
+
+		this.buttonHint.textContent = buttonText;
+
 	}
 
 	/**
 	 * Event listener (on click) for the hint button in the DOM
 	 */
-	buttonHintEventListener(){
-		var self = this; 
+	buttonHintEventListener() {
+		var self = this;
 
-		this.buttonHint.addEventListener("click", function(){
+		this.buttonHint.addEventListener("click", function () {
 			self.possibleHints = self.getPossibleHints();
-			var selectedHint = self.chooseHint();
-			self.giveHint(selectedHint); 
+			self.giveHint(self.chooseHint());
 		});
 	}
 }

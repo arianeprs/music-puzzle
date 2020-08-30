@@ -1,23 +1,14 @@
+var buttonStart = document.querySelector(".welcome-panel__btn");
 
-// intro screen fading in
-var welcome = document.getElementById("welcome-panel");
-welcome.classList.toggle('faded');
+buttonStart.addEventListener("click", function (event) {
 
-
-// launching the game when Play button is pressed
-var buttonStart = document.querySelector(".buttonStart");
-buttonStart.addEventListener("click", launchGame);
-
-
-function launchGame(){
-
-	var form = document.getElementById("musicList"); 
-	var selectedMusic = form.options[form.selectedIndex].value;
-
-	new Game(selectedMusic).startGame(); 
-
-	buttonStart.removeEventListener("click", launchGame); 
-	buttonStart.addEventListener("click", function(){ window.location.reload() });
-}
-
-
+	// button on the intro screen launches the game
+	if (event.target.textContent == "Play") {
+		var selectedMusic = dropdownBtn.getAttribute("selected-music");
+		new Game(selectedMusic).startGame();
+	}
+	// button on the finish screen refreshes the page, to go back to intro screen
+	else if (event.target.textContent == "Play again") {
+		window.location.reload();
+	}
+});
