@@ -114,6 +114,7 @@ class Dropzone {
 		else if (!bool) {
 			dropzoneElt.classList.add("is-taken");
 		}
+
 		this.myGame.puzzlePieces[0].dragElementConstraints();
 	}
 }

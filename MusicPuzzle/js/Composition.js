@@ -21,9 +21,9 @@ class Composition {
 		this.canPlay = true;
 
 		this.buttonPlay.addEventListener("click", function () {
-			
+
 			if (self.canPlay) {
-				 
+
 				self.updateButtonPlayImg(false);
 				self.playSequence(self.getUserSequence());
 			}
@@ -38,22 +38,16 @@ class Composition {
 
 	// ------- GET USER COMPOSITION  -------
 
+
 	/**
-	 * Gets all puzzle pieces that have been dropped in dropzones,  
-	 * i.e all DOM divs that have the class 'can-drop'   
-	 * @return {PuzzlePiece[]} droppedElements Array of all puzzle pieces that have been dropped
+	 * Accesses all elements dropped by the user and orders them in the 'left to right' order
+	 * @return {PuzzlePiece[]} userSequence Array of all the puzzle pieces dropped by the user, in order
 	 */
-	getAllDropped() {
+	getUserSequence() {
 
-		var droppedElements = [];
-
-		for (var item of this.myGame.puzzlePieces) {
-
-			if (item.elementDOM.classList.contains("can-drop")) {
-				droppedElements.push(item);
-			}
-		}
-		return droppedElements;
+		var droppedElements = this.myGame.puzzlePieces.filter(item => item.elementDOM.classList.contains("can-drop"));
+		var userSequence = droppedElements.sort(this.compareLeftPosition);
+		return userSequence;
 	}
 
 	/**
@@ -72,17 +66,7 @@ class Composition {
 		return comparisonValue;
 	}
 
-	/**
-	 * Accesses all elements dropped by the user and orders them in the 'left to right' order
-	 * @return {PuzzlePiece[]} userSequence Array of all the puzzle pieces dropped by the user, in order
-	 */
-	getUserSequence() {
-
-		var droppedElements = this.getAllDropped();
-		var userSequence = droppedElements.sort(this.compareLeftPosition);
-		return userSequence;
-	}
-
+  
 	// ----------- PLAY SEQUENCE ----------
 
 	/**
@@ -100,9 +84,8 @@ class Composition {
 		currentPiece.stopSprite();
 		currentPiece.removeFeedback();
 
-		for (var elt of userSequence) {
-			elt.elementDOM.classList.add("composition");
-		}
+		userSequence.forEach(item => { item.elementDOM.classList.add("composition"); });
+
 
 		currentPiece.elementDOM.classList.add("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed");
 		this.myGame.myHowl.play(currentPiece.spriteID);
@@ -132,7 +115,7 @@ class Composition {
 				if (self.myGame.verifyGameFinished()) {
 					self.myGame.myTimer.stopTimer();
 					self.myGame.displayFinishScreen();
-					self.myGame.displayConfetti(true);
+					//self.myGame.displayConfetti(true);
 				}
 
 			}
@@ -145,12 +128,13 @@ class Composition {
 	stopComposition() {
 		clearInterval(this.myInterval);
 		this.updateButtonPlayImg(true);
-		var puzzlePieces = this.myGame.puzzlePieces;
-		for (var elt of puzzlePieces) {
-			if (!elt.elementDOM.classList.contains("puzzle-piece--hasBeenPlayed")) {
-				elt.elementDOM.classList.remove("composition");
+		  
+		this.myGame.puzzlePieces.forEach(item => {
+			if (!item.elementDOM.classList.contains("puzzle-piece--hasBeenPlayed")) {
+				item.elementDOM.classList.remove("composition");
 			}
-		}
+		});
+
 
 	}
 

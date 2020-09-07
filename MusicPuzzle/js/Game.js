@@ -52,13 +52,16 @@ class Game {
 			numberOfSequences = this.maxSequences;
 		}
 
-		for (var i = 1; i <= numberOfSequences; i++) {
+		for (let i = 1; i <= numberOfSequences; i++) {
 
-			var spriteName = "sprite_" + i;
+			let spriteName = "sprite_" + i;
+
 			//spriteInfo = [offset, duration] (conversion in ms)
-			var spriteInfo = [i * this.interval * 1000, this.interval * 1000];
+			let spriteInfo = [i * this.interval * 1000, this.interval * 1000];
+
 			allAudioSprites.set(spriteName, spriteInfo);
 		}
+
 		return allAudioSprites;
 	}
 
@@ -69,7 +72,7 @@ class Game {
 	 */
 	createHowl() {
 		var self = this;
-		var musicSrc = "../sounds/" + this.chosenMusic + ".mp3"; 
+		var musicSrc = "./sounds/" + this.chosenMusic + ".mp3";  
 		var myHowl = new Howl({
 			src: musicSrc,
 			sprite: Object.fromEntries(this.audioSprites),
@@ -93,10 +96,10 @@ class Game {
 		var shuffledMap = this.shuffle(this.audioSprites);
 		var shuffledSprites = Array.from(shuffledMap.keys());
 
-		for (let i = 0; i < shuffledSprites.length; i++) {
-			var spriteID = shuffledSprites[i];
+		shuffledSprites.forEach(sprite => {
+			var spriteID = sprite;
 			allPuzzlePieces.push(new PuzzlePiece(this, spriteID, this.interval));
-		}
+		}); 
 
 		return allPuzzlePieces;
 	}
@@ -134,10 +137,7 @@ class Game {
 	 * to reveal the game panel, create the dropzones, start the timer... 
 	 */
 	startGame() {
-
-		var self = this;
-
-		
+		 
 		this.revealGamePanel(true);
 		
 		this.dropzones = this.createDropzones();
@@ -162,10 +162,10 @@ class Game {
 
 		var dropzonesArray = [];
 
-		for (var sprite of spritesArray) {
-
+		spritesArray.forEach(sprite => {
 			dropzonesArray.push(new Dropzone(sprite, this));
-		}
+		}); 
+		 
 		return dropzonesArray;
 	}
 
@@ -197,34 +197,28 @@ class Game {
 	 *  If so, it will call relevant methods to stop the timer and start the finish animation
 	 */
 	verifyGameFinished() {
+		 
+		var wrongPieces = this.puzzlePieces.filter(this.isNotCorrect); 
+		return wrongPieces.length <= 0; 
+	}
 
-		var gameCompleted = true;
-
-		for (var elt of this.puzzlePieces) {
-			if (!elt.elementDOM.classList.contains('puzzle-piece--correct-position')) {
-				gameCompleted = false;
-			}
-		}
-		return gameCompleted; 
+	/**
+	 * Callback function to filter the puzzle pieces that DON'T have the class 'correct position'
+	 * @param{PuzzlePiece} item  
+	 * @return {bool}  
+	 */
+	canDrop(item) {
+		return item.elementDOM.classList.contains("can-drop");
+	}
+	isNotCorrect(item) {
+		return !item.elementDOM.classList.contains("puzzle-piece--correct-position");
 	}
 	 
 	 
 	/**
-	 *  Displays the finish screen by calling relevant methods and updating DOM elements' text
+	 *  Displays the finish screen by rendering confetti and updating DOM elements' text
 	 */
 	displayFinishScreen() {
-
-		document.querySelector(".overlay").style.visibility = "visible";
-
-		document.querySelector(".overlay__text > h3").textContent = "You completed the puzzle in " + this.myTimer.getTime();
-	}
-
-	/**
-	 * Method to display/hide the confetti (for the finish screen)
-	 * @param {boolean} bool Defines whether the confetti will be displayed or hidden
-	 */
-	displayConfetti(bool) {
-
 		var confettiSettings = {
 			"target": "confetti",
 			"max": "150",
@@ -237,13 +231,14 @@ class Game {
 			"start_from_edge": false,
 			"respawn": true
 		};
+		var confetti = new ConfettiGenerator(confettiSettings);
+		confetti.render();
+		// if needed: confetti.clear(); 
 
-		this.confetti = new ConfettiGenerator(confettiSettings);
-
-		if (bool) { this.confetti.render(); }
-		else { this.confetti.clear(); }
+		document.querySelector(".overlay").style.visibility = "visible";
+		document.querySelector(".overlay__text > h3").textContent = "You completed the puzzle in " + this.myTimer.getTime();
 	}
-
+  
 	/**
 	 * Returns coordinates of an element's center
 	 * @param {HTMLElement} element in the DOM 

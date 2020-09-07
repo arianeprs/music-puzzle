@@ -1,0 +1,134 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Music Puzzle</title>
+
+    <link rel="icon" type="image/png" href="./image/myLogo.png">
+    <link rel="apple-touch-icon" type="image/png" href="./image/myLogo.png" />
+
+    <meta name="viewport" content="width=device-width">
+
+
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="stylesheet" href="./css/prefixed/style.css">
+    <!--<link rel="stylesheet" href="../css/style.css">-->
+</head>
+
+<body>
+
+    <!-- Audios need to be loaded on the page to be later used -->
+
+    <audio id="demis" src="./sounds/demis.mp3"></audio>
+    <audio id="bruce" src="./sounds/bruce.mp3"></audio>
+    <audio id="trex" src="./sounds/trex.mp3"></audio>
+
+     
+    <main class="main-container">
+         
+        <canvas id="confetti" class="main-container__confetti"></canvas>
+
+        <section class="welcome-panel">
+
+            <h1 class="welcome-panel__title"> Music Puzzle </h1>
+
+            <h2 class="welcome-panel__subtitle">Place the pieces in the right order to recreate the song</h2>
+
+            <div class="dropdown">
+                <button class="dropdown__btn"><span>Select a song to play with</span> <img class="dropdown__img" src="./image/down-arrow-pink.png" /></button>
+                <div class="dropdown__choices">
+                    <a id="bruce">Dancing In The Dark - Bruce Springsteen</a>
+                    <a id="demis">When I Am A Kid - Demis Roussos</a>
+                    <a id="trex">I love To Boogie - T-Rex</a>
+                </div>
+            </div>
+
+            <button class="welcome-panel__btn welcome-panel__btn--background">Play</button>
+
+        </section>
+
+        <section class="game-panel" style="display:none;">
+
+            <header class="game-panel__header">
+
+                <div class="game-panel__timer">
+                    <span id="min">00</span>:<span id="sec">00</span>.<span id="ms">00</span>
+                </div>
+
+                <nav class="game-panel__top-buttons">
+                    <button class="game-panel__btn game-panel__hint">Use a hint</button>
+                    <button class="game-panel__btn game-panel__restart">New game</button>
+                </nav>
+
+            </header>
+
+            <div id="outer-dropzone" class="game-panel__composition-zone">
+
+                <button class="play-button">
+                    <img id="play_img" class="play-button__img" src="./image/play.png">
+                    <img id="stop_img" class="play-button__img play-button__img--hidden" src="./image/stop.png">
+                </button>
+
+                <div   class="dropzones-container">
+                    <!--  Dropzones to be created in JS -->
+                </div>
+            </div>
+
+            <div  class="game-panel__puzzle-pieces puzzle-pieces-container">
+                <!--  Sprite elements to be created in JS -->
+            </div>
+
+        </section>
+
+        <section class="overlay" >
+
+            <div class="overlay__text">
+                <h2 class="welcome-panel__subtitle">Congratulations !</h2>
+
+                <h3 class="welcome-panel__subtitle welcome-panel__subtitle--small"> You completed the game in 6:03.298 </h3>
+
+                <button class="welcome-panel__btn welcome-panel__btn--background">Play again</button>
+
+            </div>
+
+        </section>
+         
+        <footer class="footer">
+
+            <div class="footer__me">Made with &#9829; by <a href="mailto:ame.parissis@gmail.com" rel="noopener">ariane</a></div>
+            <div class="footer__allrights">
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"> &copy;MusicPuzzle 2020. All Rights Reserved.</a>
+
+            </div>
+        </footer>
+
+    </main>
+
+
+
+    <!-- All JS Scripts -->
+
+    <script src="./js/confetti/dist/index.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
+
+
+    <script src="./js/PuzzlePiece.js"></script>
+    <script src="./js/Dropzone.js"></script>
+    <script src="./js/Game.js"></script>
+    <script src="./js/Composition.js"></script>
+    <script src="./js/Timer.js"></script>
+    <script src="./js/Hints.js"></script>
+    <script src="./js/MusicSelection.js"></script>
+    <script src="./js/Main.js"></script>
+
+</body>
+
+<!-- <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+                
+    This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.-->
+
+</html>
+
