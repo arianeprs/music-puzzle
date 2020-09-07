@@ -12,15 +12,15 @@ class Game {
 	constructor(chosenMusic) {
 
 		this.interval = 4; //sprite duration
-		this.hintLimit = 3; // max number of hints 
-		this.maxSequences = 11; // number of sequences
+		this.hintLimit = 13; // max number of hints 
+		this.maxSequences = 11 ; // number of sequences 
 		this.howlVolume = 0.3;
 
 		this.colorPiecesInterval = 50;
 		this.colorPiecesTimeout = 400;
 
 		this.chosenMusic = chosenMusic;
-
+		  
 		this.audioSprites = this.createAudioSprites(); //all audio sprites (Map: id, [start,duration])
 
 		this.myHowl = this.createHowl();
@@ -69,8 +69,7 @@ class Game {
 	 */
 	createHowl() {
 		var self = this;
-		var musicSrc = "../sounds/" + this.chosenMusic + ".mp3";
-
+		var musicSrc = "../sounds/" + this.chosenMusic + ".mp3"; 
 		var myHowl = new Howl({
 			src: musicSrc,
 			sprite: Object.fromEntries(this.audioSprites),
@@ -138,8 +137,9 @@ class Game {
 
 		var self = this;
 
+		
 		this.revealGamePanel(true);
-
+		
 		this.dropzones = this.createDropzones();
 
 		this.puzzlePieces[0].dragElementConstraints();
@@ -148,7 +148,7 @@ class Game {
 		this.myHints = new Hints(this);
 
 		var buttonRestart = document.querySelector(".game-panel__restart");
-		buttonRestart.addEventListener("click", function () { window.location.reload() });
+		buttonRestart.addEventListener("click", function () { window.location.reload() }); 
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Game {
 		var gamePanel = document.querySelector(".game-panel"),
 			welcomePanel = document.querySelector(".welcome-panel");
 
-		if (bool == true) {
+		if (bool == true) { 
 			welcomePanel.style.display = "none";
 			gamePanel.style.display = "block";
 		}
@@ -189,6 +189,7 @@ class Game {
 		}
 	}
 
+ 
 	// ---------------- FINISH THE GAME ----------------
 
 	/**
@@ -204,60 +205,18 @@ class Game {
 				gameCompleted = false;
 			}
 		}
-		if (gameCompleted) {
-			this.myTimer.stopTimer();
-			this.finishAnimation();
-			this.displayFinishScreen();
-		}
+		return gameCompleted; 
 	}
-
-	/**
-	 *  Colors all the puzzle pieces in green
-	 */
-	finishAnimation() {
-
-		var self = this;
-
-		setTimeout(function () {
-
-			var spritesToColor = self.composition.getUserSequence();
-
-			setInterval(function () {
-
-				if (spritesToColor.length > 0) {
-					spritesToColor[0].elementDOM.classList.add("puzzle-piece--hasBeenPlayed", "puzzle-piece--correct-position", "composition");
-					spritesToColor.shift();
-				}
-
-			}, this.colorPiecesInterval);
-
-		}, this.colorPiecesTimeout);
-
-		self.displayFinishScreen();
-	}
-
+	 
+	 
 	/**
 	 *  Displays the finish screen by calling relevant methods and updating DOM elements' text
 	 */
 	displayFinishScreen() {
 
-		console.log("display finish screen");
+		document.querySelector(".overlay").style.visibility = "visible";
 
-		this.displayConfetti(true);
-		this.revealGamePanel(false);
-
-		var title = document.querySelector(".welcome-panel__title");
-		title.textContent = "Congrats!";
-
-		var intro = document.querySelector(".welcome-panel__subtitle");
-		intro.textContent = "You completed the puzzle in " + this.myTimer.getTime();
-
-		var musicList = document.querySelector(".dropdown");
-		musicList.style.display = "none";
-
-		var button = document.querySelector(".welcome-panel__btn");
-		button.textContent = "Play again";
-
+		document.querySelector(".overlay__text > h3").textContent = "You completed the puzzle in " + this.myTimer.getTime();
 	}
 
 	/**
@@ -308,4 +267,5 @@ class Game {
 		var matchingDropzone = this.dropzones.find(({ dropzoneID }) => dropzoneID === puzzlePiece.spriteID);
 		return matchingDropzone;
 	}
+	  
 }

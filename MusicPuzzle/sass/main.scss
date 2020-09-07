@@ -1,98 +1,71 @@
 @import '_variables.scss';
 @import '_mixins.scss';
 
-body{
+
+/*  ============================
+    ====== Overall Layout ======
+    ============================
+*/
+
+body {
     background-color: $color-background;
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-button, a{
-    cursor: pointer;
-}
-
-option, form{
-    font-family: "SpartanBold";
-}
-
-.main-screen {
-    margin: auto;
+.main-container {
     position: relative;
     display: flex;
     flex-direction: column;
-
-    @include borders(main-screen);
+    margin: auto;
     width: 800px;
     height: 400px;
 
+    @include borders(main-container);
+
     &__confetti {
         width: 100%;
-        height: 100%; 
+        height: 100%;
         position: absolute;
     }
 }
 
-.welcome-panel, .game-panel {
-    width: 100%;
-    height: 100%;
+.welcome-panel {
     display: flex;
     flex-direction: column;
     text-align: center;
-    align-items: center;
-    z-index: 10;
-    -webkit-transition: color 0.2s ease-in;
-    -ms-transition: color 0.2s ease-in;
-    transition: color 0.2s ease-in;
-
-    @include fonts($welcome-panel-fonts);
-}
-
-.game-panel__hint, .game-panel__restart {
-    &:hover {
-        color: $pink-no-opacity;
-        -webkit-transition: color 0.2s ease-in;
-        -ms-transition: color 0.2s ease-in;
-        transition: color 0.2s ease-in;
-    }
+    align-items: center; 
+    @include layout($welcome-panel-fonts, "__");
 }
 
 
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+.welcome-panel, .game-panel {
+    width: 100%;
+    height: 100%;
+    z-index: 10; 
 }
-.welcome-panel__btn {
-    visibility: hidden;
 
-    &--background {
-        width: fit-content;
-        letter-spacing: 0.1em;
-        border: none;
-        border-radius: 8px;
-        padding: 0.5em;
-        margin-top: 1em;
-        background: linear-gradient(-45deg, #43BD99, rgb(89,180,177), rgb(231,98,161), rgb(255,187,64));
-        background-size: 400% 400%;
-        animation: gradient 1.5s ease infinite; 
 
-        &:hover {
-            animation: none; 
-        }
+/*  ============================
+    ======== Game Panel ========
+    ============================
+*/
+
+.game-panel { 
+    @include layout($game-panel-fonts, "__");
+
+    &__composition-zone {
+        @include borders(composition-zone);
+        margin: 2% 6%;
+        padding: 2%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }
 
 .game-panel {
-    @include fonts($game-panel-fonts);
-
     &__header {
         margin-top: 2%;
     }
@@ -108,92 +81,112 @@ option, form{
         padding: 0 1em;
     }
 
-    &__composition-zone { 
-        @include borders(composition-zone);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 2% 6%;
-        padding: 2%;
-    }
-}
-
-.game-panel__buttons {
+    &__btn {
         background: inherit;
         border: none;
 
-        &:hover {
-            opacity: 1;
+        &:hover { 
+            transition: color 0.2s ease-in; 
         }
     }
+}
 
-.puzzle-piece {
-        min-width: 40px;
-        min-height: 40px;
-        border-radius: 0.4em;
-        transition: background-color 0.3s;
 
-        &--dropzone {
-            background-color: rgba(196, 196, 196, 0.15);
-            margin: 0.2em; 
-        }
+/*  ============================
+    === Buttons & Animation ====
+    ============================
+*/
 
-        &--drag-drop {
-            display: inline-block;
-            margin: 1em;
-            background: rgb(89,180,177);
-            background: linear-gradient(45deg, rgb(89,180,177), #99FFFF);
-            box-sizing: border-box;
-            touch-action: none;
-            transform: translate(0px, 0px);
-        }
 
-        &--is-playing {
-            box-shadow: inset 0 1px 4px #FFFFCC,0 0 10px #FFFFCC;
-        }
+button, a {
+    cursor: pointer;
+} 
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
     }
 
-.puzzle-piece--correct-position.puzzle-piece--hasBeenPlayed.composition {
-    transition: background-color 0.3s;
-    background: #A9CB55;
-    background: linear-gradient(45deg, #A9CB55, #9DCEA5);
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.puzzle-piece--incorrect-position.puzzle-piece--hasBeenPlayed.composition {
-    transition: background-color 0.3s;
-    background: #FF3333;
-    background: linear-gradient(45deg, #FF3333, #F39669);
+.welcome-panel__btn--background {
+
+    display:inline-block;
+    text-align:center;
+
+    letter-spacing: 0.1em;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5em;
+     
+    animation: gradient 1.5s ease infinite;
+
+    &:hover {
+        animation: none;
+    }
 }
 
-.dropzones {
+
+/*  ============================
+    ======= Puzzle Piece =======
+    ============================
+*/
+.dropzones-container {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
-    /*margin-top: 1%;
-margin-bottom: 1%;
-margin-right: 2%;*/
     margin-left: 2%;
     padding: 1%;
-    /*border-radius: 0.9em;*/
 }
 
-.puzzle-pieces {
+.puzzle-pieces-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: stretch;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin: 0 15%;
 }
 
+.puzzle-piece {
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 0.4em;
+    
+    @include layout($puzzle-pieces-colors, "--");
+
+    &--dropzone {
+        margin: 0.2em;
+    }
+
+    &--drag-drop {
+        margin: 1.5em;
+        transform: translate(0px, 0px);
+    }
+}
+// feedback (red/green) when the music is played from the composition area
+.puzzle-piece--hasBeenPlayed.composition { 
+    @include layout($puzzle-pieces-feedback, ".");
+}
+
+
+/*  ============================
+    ======= Play Button ========
+    ============================
+*/
 .play-button {
-    display: inline-block;
     width: 45px;
     height: 45px;
     border: none;
     border-radius: 12px;
-    background: rgb(231,98,161);
-    background: linear-gradient(42deg, rgb(231,98,161) 0%, rgb(255,187,64) 100%);
+
+    @include layout($play-button-colors, ":"); 
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
 
@@ -208,29 +201,67 @@ margin-right: 2%;*/
 
     &:disabled {
         cursor: default;
-        background: rgba(196, 196, 196, 0.15);
         transition: opacity 0.3s ease-in-out;
     }
 }
 
+/*  =================================
+    ======= Overlay end panel =======
+    =================================
+*/
+.overlay {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
 
 
-/* The container <div> - needed to position the dropdown content */
+    &__text {
+        border: solid 1px;
+        border-color: #202020;
+        border-radius: 1em;
+
+        margin: auto;
+        padding: 3% 6%;
+        opacity: 1;
+        background-color: $color-background;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        
+
+        & > h3 {
+            margin-top: 0.2em;
+            margin-bottom: 1.5em;
+        }
+    }
+}
+
+/*  =============================
+    ======= Dropdown form =======
+    =============================
+
+*/
+
 .dropdown {
     position: relative;
     display: block;
+    margin-bottom: 1em;
+
+    @include layout($dropdown-fonts, "__");
+    @include layout($dropdown, "__");
+     
 
     &__btn {
         background-color: inherit;
         padding: 0.5em 1em;
-        border-radius: 0.4em;
-        font-family: "SpartanBold";
-        font-size: medium;
-        color: $pink;
-        border: solid 0.1em $pink;
         display: flex;
         align-items: center;
-        
     }
 
     &__img {
@@ -244,54 +275,47 @@ margin-right: 2%;*/
         position: absolute;
         z-index: 1;
         width: 100%;
-    }
-}
-   
-/* Links inside the dropdown */
-.dropdown__choices a {
-    background: $color-background;
-    text-decoration: none;
-    display: block;
-    font-family: "SpartanMedium";
-    font-size: 0.9em;
-    padding: 0.4em 0;
-    color: $blue;
-  
-    &:hover {
-        background-color: pastel($blue);
-        color: $color-background;
-    }
-}
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropdown__btn {
-    -webkit-transition: background-color 0.2s linear;
-    -ms-transition: background-color 0.2s linear;
-    transition: background-color 0.2s linear;
-    background-color: pastel($pink);
-    color: $color-background;
-    border: solid 0.1em $color-background;
-}
-
-footer {
-    z-index: 1000;
-    color: $pink;
-    text-align: center;
-
-    & > .footer__me {
-        font-family: "SpartanExtra";
-        font-size: small;
-        margin: 0.5em; 
-
-        & > a {
-            color: $pink;
+        & a {
             text-decoration: none;
+            display: block;
+            padding: 0.4em 0;
         }
     }
+}
+ 
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover {
+      
+    & .dropdown__btn {
+        transition: background-color 0.2s linear;
+        background-color: pastel($pink);
+        color: $color-background;
+        border: solid 0.1em $color-background;
+    }
+}
 
-    & > .footer__allrights {
-        opacity: 0.5;
-        font-family: "SpartanMedium";
-        font-size: x-small;
+
+/*  ======================
+    ======= Footer =======
+    ======================
+*/
+
+.footer {
+    z-index: 1000;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    @include layout($footer-fonts, "__");
+
+    &__me {
+        margin: 0.5em;
+    }
+
+    & a {
+        color: inherit;
+        text-decoration: none;
     }
 }

@@ -51,8 +51,7 @@ class Hints {
 
 		this.myGame.composition.enableButtonPlay();
 		this.myGame.puzzlePieces[0].dragElementConstraints();
-
-		this.myGame.verifyGameFinished();
+		 
 	}
 
 	/**
@@ -130,7 +129,7 @@ class Hints {
 	 */
 	updateButtonHint() {
 
-		var buttonText = "Use a hint!";
+		var buttonText = "Use a hint";
 
 		var remainingHints = this.getPossibleHints().length;
 

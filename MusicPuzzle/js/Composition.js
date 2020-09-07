@@ -21,8 +21,9 @@ class Composition {
 		this.canPlay = true;
 
 		this.buttonPlay.addEventListener("click", function () {
-
+			
 			if (self.canPlay) {
+				 
 				self.updateButtonPlayImg(false);
 				self.playSequence(self.getUserSequence());
 			}
@@ -127,6 +128,12 @@ class Composition {
 				currentPiece.stopSprite();
 				currentPiece.elementDOM.classList.remove("puzzle-piece--is-playing");
 				self.stopComposition();
+
+				if (self.myGame.verifyGameFinished()) {
+					self.myGame.myTimer.stopTimer();
+					self.myGame.displayFinishScreen();
+					self.myGame.displayConfetti(true);
+				}
 
 			}
 		}, currentPiece.interval * 1000); // conversion in ms
