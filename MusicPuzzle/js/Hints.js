@@ -61,23 +61,20 @@ class Hints {
 	 */
 	getPossibleHints() {
 
-		var possibleHints = [];
-		var puzzlePieces = this.myGame.puzzlePieces;
+		var possibleHints = this.myGame.puzzlePieces.filter(item => !item.elementDOM.classList.contains('can-drop')); 
 
-		for (var elt of puzzlePieces) {
+		possibleHints.forEach(item => {
+			 
+			var matchingDropzone = this.myGame.findMatchingDropzone(item);
 
-			if (!elt.elementDOM.classList.contains('can-drop')) {
-
-				// element's corresponding dropzone
-				var matchingDz = this.myGame.findMatchingDropzone(elt);
-
-				if (!matchingDz.dropzoneDOM.classList.contains("is-taken")) {
-					possibleHints.push(elt);
-				}
+			if (!matchingDropzone.dropzoneDOM.classList.contains("is-taken")) {
+				possibleHints.push(item);
 			}
-		}
+		});
+  
 		return possibleHints;
 	}
+ 
 
 	/**
 	 * Returns value between min (included) and max (exluded)
@@ -115,8 +112,7 @@ class Hints {
 		// update the position attributes
 		myElt.setAttribute('data-x', DeltaX);
 		myElt.setAttribute('data-y', DeltaY);
-
-
+		 
 		this.myGame.puzzlePieces[0].stopSprite();
 		this.myGame.composition.stopComposition();
 

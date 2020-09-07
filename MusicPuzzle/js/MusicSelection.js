@@ -44,13 +44,13 @@ function openDropdown(bool) {
     if (bool) {
         dropdownBtn.classList.add("dropdown--open");
         dropdown.style.display = "block";
-        buttonImg.src = "../image/down-arrow.png";
+        buttonImg.src = "./image/down-arrow.png";
         buttonImg.style.transform = "rotate(180deg)";
     }
     else {
         dropdownBtn.classList.remove("dropdown--open");
         dropdown.style.display = "none";
-        buttonImg.src = "../image/down-arrow-pink.png";
+        buttonImg.src = "./image/down-arrow-pink.png";
     }
 }
 

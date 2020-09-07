@@ -132,31 +132,31 @@ class PuzzlePiece {
 	 * @return {object[]} dropCenters An array of the positions (key-value pairs)
 	 */
 	getDropzonesCenters() {
-
-		var myDropzones = document.querySelectorAll(".puzzle-piece--dropzone");
+		 
+		var myDropzones = this.myGame.dropzones;
 		var dropCenters = [];
+		      
+		var freeDropzones = myDropzones.filter(item => !item.dropzoneDOM.classList.contains("is-taken"));
+		 
+		freeDropzones.forEach(item => {
 
+			let dropCenter = this.myGame.getPosition(item.dropzoneDOM);
+			dropCenters.push(dropCenter);
 
-		myDropzones.forEach(elt => {
-			if (!elt.classList.contains("is-taken")) {
-				var dropCenter = this.myGame.getPosition(elt);
-				dropCenters.push(dropCenter);
-			}
 		});
 
 		return dropCenters;
 	}
 
+	 
 	// ----- PLAY/STOP AUDIO SPRITE ------
 
 	/**
 	 * Plays the audio sprite associated with the puzzle piece.
 	 * Note: cannot be called in iterative loops (event on "end" does not support it)
 	 */
-	playSprite() {
-
-		this.myGame.myHowl.play(this.spriteID);
-
+	playSprite() { 
+		this.myGame.myHowl.play(this.spriteID); 
 		this.elementDOM.classList.add("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed");
 	}
 
@@ -179,15 +179,12 @@ class PuzzlePiece {
 	 */
 	removeFeedback() {
 
-		var puzzlePieces = this.myGame.puzzlePieces;
+		var piecesNotPlaced = this.myGame.puzzlePieces.filter(item => !item.elementDOM.classList.contains("composition"));
 
-		puzzlePieces.forEach(elt => {
-			var classes = elt.elementDOM.classList;
-
-			if (!classes.contains("composition")) {
-				elt.elementDOM.classList.remove("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed");
-			}
-		});
-
+		piecesNotPlaced.forEach(item => {
+			item.elementDOM.classList.remove("puzzle-piece--is-playing", "puzzle-piece--hasBeenPlayed"); 
+		}); 
 	}
+	 
+	 
 }
