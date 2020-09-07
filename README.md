@@ -1,5 +1,8 @@
 # music-puzzle
-A little music puzzle game
+
+Just like a normal puzzle, but with music instead.
+
+Place the pieces in the right order to re-create the song.
 
 Personal project to experiment using HTML, CSS and Javascript (Vanilla).
 
