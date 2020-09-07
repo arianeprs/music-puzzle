@@ -1,7 +1,29 @@
+/*
+
+    =======  Colors  =======
+
+*/
+ 
+
 $color-background: #121212;
 $pink: rgba(231, 98, 161,0.6);
 $pink-no-opacity: rgba(231, 98, 161,0.9);
 $blue: #43BD99;
+$grey:rgba(196, 196, 196, 0.15);
+
+
+@function pastel($color) {
+    $color-hue: hue($color);
+    $pastel-color: hsl($color-hue, 100%, 90%);
+    @return $pastel-color;
+}
+ 
+
+/*
+
+    =======  Fonts/Colors  =======
+
+*/
 
 $welcome-panel-fonts: ( 
     title: (
@@ -15,12 +37,20 @@ $welcome-panel-fonts: (
         font-size: 1em,
         color: #43BD99,
         opacity: 0.9
+    ), 
+    subtitle--small:(
+        font-family: "SpartanMedium",
+        font-size: 0.9em 
     ),
     btn: (
         font-family: "SpartanExtra",
-        font-size: 1.5em,
+        font-size: 1.2em,
         color: #121212,
         opacity: 1
+    ),
+    btn--background:(
+        background: linear-gradient(-45deg, $blue, rgb(89,180,177), $pink-no-opacity, rgb(255,187,64)),
+        background-size: 400% 400%
     )
 
 );
@@ -29,16 +59,17 @@ $game-panel-fonts:(
     restart: (
         font-family: "SpartanMedium",
         font-size: 1em,
-        color: rgba(231, 98, 161,0.6),
-        /*opacity: 0.6*/
+        color: rgba(231, 98, 161,0.6)
     ), 
     hint: (
         font-family: "SpartanExtra",
         font-size: 1em,
-        color: rgba(231, 98, 161,0.6),
-        /*opacity: 0.6*/
+        color: rgba(231, 98, 161,0.6)
     ), 
-     timer: (
+    "btn:hover": (
+        color: $pink-no-opacity
+    ),
+    timer: (
         font-family: "SpartanExtra",
         font-size: medium,
         color: rgb(196,196,196),
@@ -46,8 +77,66 @@ $game-panel-fonts:(
     )
 );
 
+$dropdown-fonts:(
+    btn: (
+        font-family: "SpartanBold",
+        font-size: medium,
+        color: $pink 
+    ), 
+    choices: (
+        font-family: "SpartanMedium",
+        font-size: 0.9em,
+        color: $blue
+    )
+);
+
+$footer-fonts:(
+    allrights:(
+        opacity: 0.5,
+        font-family: "SpartanMedium",
+        font-size: 0.7em,
+        color: $pink
+    ),
+
+    me:(
+    font-family: "SpartanExtra",
+        font-size: 0.8em,
+        color: $pink
+    ) 
+);
+
+/*
+
+    =======  Puzzle Pieces Colors  =======
+
+*/
+
+$puzzle-pieces-colors:  ( 
+    dropzone: ( background-color: $grey ), 
+    drag-drop : ( background: linear-gradient(45deg, rgb(89,180,177), #99FFFF) ), 
+    is-playing :( box-shadow: (inset 0 1px 4px #FFFFCC, 0 0 10px #FFFFCC) ) 
+);
+
+$puzzle-pieces-feedback: ( 
+    puzzle-piece--correct-position:( background: linear-gradient(45deg, #A9CB55, #9DCEA5)), 
+    puzzle-piece--incorrect-position:(background: linear-gradient(45deg, #FF3333, #F39669)) 
+);
+
+$play-button-colors: ( 
+    enabled : ( background: linear-gradient(42deg, rgb(231,98,161) 0%, rgb(255,187,64) 100%) ), 
+    disabled : ( background: $grey) 
+);
+
+
+
+/*
+
+    =======  Borders  =======
+
+*/
+
 $borders: (
-    main-screen: (
+    main-container: (
         border: solid 2px,
         border-color: rgba(231, 98, 161,0.3),
         border-radius: 1em
@@ -56,11 +145,26 @@ $borders: (
         border: solid 2px, 
         border-color: rgba(231, 98, 161,0.3),
         border-radius: 1em
+    ) 
+);
+
+
+/*
+     ========== Dropdown =======
+*/
+
+$dropdown: (
+     btn : (
+        border-radius: 0.4em,
+        border: solid 0.1em $pink
+    ),
+     choices: (
+        background: $color-background
+    ),
+    "choices a:hover":(
+        background-color: pastel($blue),
+        color: $color-background
     )
 );
 
-@function pastel($color){
-    $color-hue : hue($color);
-    $pastel-color : hsl($color-hue, 100%, 90%);
-    @return $pastel-color;
-}
+ 

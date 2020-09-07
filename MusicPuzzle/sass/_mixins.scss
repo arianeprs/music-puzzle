@@ -1,13 +1,4 @@
-@mixin fonts($texts) {
-    @each $text-type, $text-info in $texts {
-        &__#{$text-type} {
-            font-family: map-get($text-info, font-family);
-            font-size: map-get($text-info, font-size);
-            color: map-get($text-info, color);
-            opacity: map-get($text-info, opacity);
-        }
-    }
-}
+
 
 @mixin borders($element) {
     $border-info: map-get($borders, $element);
@@ -15,4 +6,63 @@
     border: map-get($border-info, border);
     border-color: map-get($border-info, border-color);
     border-radius: map-get($border-info, border-radius);
+}
+
+  
+// TODO : find a way to condensate
+
+@mixin puzzle-pieces($puzzle-pieces-colors){
+    @each $element, $infos in $puzzle-pieces-colors{
+        &--#{$element}{
+
+            @each $info, $value in $infos {
+                #{$info}: $value;
+            }
+        }
+    }
+}
+
+@mixin puzzle-pieces-feedback($puzzle-pieces-feedback) {
+    @each $element, $infos in $puzzle-pieces-feedback {
+        &.#{$element} {
+
+            @each $info, $value in $infos {
+                #{$info}: $value;
+            }
+        }
+    }
+}
+
+@mixin play-button($play-button-colors) {
+    @each $element, $infos in $play-button-colors {
+        &:#{$element} {
+            @each $info, $value in $infos {
+                #{$info}: $value;
+            }
+        }
+    }
+}
+
+@mixin fonts($fonts-map) {
+    @each $element, $infos in $fonts-map {
+        &__#{$element} {
+
+            @each $info, $value in $infos {
+                #{$info}: $value;
+            }
+        }
+    }
+}
+
+
+
+@mixin layout($fonts-map, $selector) {
+    @each $element, $infos in $fonts-map {
+        &#{$selector}#{$element} {
+
+            @each $info, $value in $infos {
+                #{$info}: $value;
+            }
+        }
+    }
 }

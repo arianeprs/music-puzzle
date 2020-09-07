@@ -33,7 +33,7 @@ class PuzzlePiece {
 
 		// Declare id and class of new element
 		var newElt = document.createElement("div");
-		newElt.classList.add("puzzle-piece", "puzzle-piece--drag-drop");
+		newElt.classList.add("puzzle-piece", "puzzle-piece--drag-drop", "can-move");
 		newElt.id = this.spriteID;
 
 		// insert new element in parent node 
@@ -106,7 +106,7 @@ class PuzzlePiece {
 
 		var self = this;
 
-		interact('.puzzle-piece--drag-drop').draggable({
+		interact('.can-move').draggable({
 			modifiers: [
 
 				interact.modifiers.restrictRect({

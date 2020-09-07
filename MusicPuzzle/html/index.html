@@ -8,8 +8,12 @@
     <link rel="icon" type="image/png" href="../image/myLogo.png">
     <link rel="apple-touch-icon" type="image/png" href="../image/myLogo.png" />
 
+    <meta name="viewport" content="width=device-width">
+
+
     <link rel="stylesheet" href="../css/fonts.css">
     <link rel="stylesheet" href="../css/prefixed/style.css">
+    <!--<link rel="stylesheet" href="../css/style.css">-->
 </head>
 
 <body>
@@ -20,10 +24,10 @@
     <audio id="bruce" src="../sounds/bruce.mp3"></audio>
     <audio id="trex" src="../sounds/trex.mp3"></audio>
 
-    <main class="main-screen">
-
-
-        <canvas id="confetti" class="main-screen__confetti"></canvas>
+     
+    <main class="main-container">
+         
+        <canvas id="confetti" class="main-container__confetti"></canvas>
 
         <section class="welcome-panel">
 
@@ -53,8 +57,8 @@
                 </div>
 
                 <nav class="game-panel__top-buttons">
-                    <button class="game-panel__buttons game-panel__hint">Use a hint!</button>
-                    <button class="game-panel__buttons game-panel__restart">New game</button>
+                    <button class="game-panel__btn game-panel__hint">Use a hint</button>
+                    <button class="game-panel__btn game-panel__restart">New game</button>
                 </nav>
 
             </header>
@@ -66,22 +70,37 @@
                     <img id="stop_img" class="play-button__img play-button__img--hidden" src="../image/stop.png">
                 </button>
 
-                <div id="dropzones" class="dropzones">
+                <div   class="dropzones-container">
                     <!--  Dropzones to be created in JS -->
                 </div>
             </div>
 
-            <div id="puzzle-pieces" class="game-panel__puzzle-pieces puzzle-pieces">
+            <div  class="game-panel__puzzle-pieces puzzle-pieces-container">
                 <!--  Sprite elements to be created in JS -->
             </div>
 
         </section>
 
-        <footer>
+        <section class="overlay" >
 
-            <div class="footer__me">Made with &#9829; by <a href="https://www.linkedin.com/in/ariane-parissis/" target="_blank" rel="noopener">ariane</a></div>
-            <div class="footer__allrights">&copy;MusicPuzzle 2020. All Rights Reserved.</div>
+            <div class="overlay__text">
+                <h2 class="welcome-panel__subtitle">Congratulations !</h2>
 
+                <h3 class="welcome-panel__subtitle welcome-panel__subtitle--small"> You completed the game in 6:03.298 </h3>
+
+                <button class="welcome-panel__btn welcome-panel__btn--background">Play again</button>
+
+            </div>
+
+        </section>
+         
+        <footer class="footer">
+
+            <div class="footer__me">Made with &#9829; by <a href="mailto:ame.parissis@gmail.com" rel="noopener">ariane</a></div>
+            <div class="footer__allrights">
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"> &copy;MusicPuzzle 2020. All Rights Reserved.</a>
+
+            </div>
         </footer>
 
     </main>
@@ -107,4 +126,9 @@
 
 </body>
 
+<!-- <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+                
+    This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.-->
+
 </html>
+

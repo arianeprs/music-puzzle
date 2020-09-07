@@ -25,7 +25,7 @@ class Dropzone {
 	 */
 	createDropzoneDOM() {
 
-		var allDropzones = document.getElementById("dropzones");
+		var allDropzones = document.querySelector(".dropzones-container");
 
 		var newDropzoneElt = document.createElement("div");
 		newDropzoneElt.classList.add("puzzle-piece--dropzone", "puzzle-piece", this.dropzoneID);
@@ -82,8 +82,7 @@ class Dropzone {
 				event.relatedTarget.classList.remove('composition', 'puzzle-piece--hasBeenPlayed');
 
 				if (dropzoneElement.classList.contains(draggableElement.id)) {
-					draggableElement.classList.add('puzzle-piece--correct-position');
-					self.myGame.verifyGameFinished();
+					draggableElement.classList.add('puzzle-piece--correct-position'); 
 				}
 				else {
 					draggableElement.classList.add('puzzle-piece--incorrect-position');
