@@ -1,11 +1,8 @@
-# Music Puzzle
+![Alt text](/MusicPuzzle/image//myLogo.png?raw=true ) 
+
+# Music Puzzle 
 
 ### Just like a normal puzzle, but with music instead 
 
-[:musical_note: Visit it online! :musical_note:](http://musicpuzzle.free.fr/)
+[:musical_note:  **Play it online** :musical_note:](http://musicpuzzle.free.fr/)
 
-
-
-Personal project to experiment using HTML, CSS and Javascript (Vanilla).
-
-  
